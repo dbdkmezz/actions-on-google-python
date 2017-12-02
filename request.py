@@ -16,19 +16,19 @@ class GoogleRequest(object):
         self.user_id = None
 
         body = request.body.decode('utf-8')
-        self.logger.info("Request body: %s", pprint.pformat(body))
+        self.logger.info('Request body: %s', pprint.pformat(body))
         try:
             j = json.loads(body)
         except json.JSONDecodeError:
-            self.logger.warn("Unable to decode json")
+            self.logger.warn('Unable to decode json')
             raise NoJsonException
 
         self.user_id = j['user']['userId']
-        self.logger.info("USER ID: %s", self.user_id)
+        self.logger.info('USER ID: %s', self.user_id)
         input = j['inputs'][0]
 
         if 'arguments' not in input:
-            self.logger.info("No arguments in request")
+            self.logger.info('No arguments in request')
             return None
 
         self.text = input['arguments'][0]['textValue']

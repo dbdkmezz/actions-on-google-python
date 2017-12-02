@@ -7,19 +7,19 @@ class GoogleActions(object):
         self.sandbox = sandbox
 
     def ask(self, text):
-        self.logger.debug("Asking {}".format(text))
+        self.logger.debug('Asking {}'.format(text))
         return {
-            "expectUserResponse": True,
-            "isInSandbox": self.sandbox,
-            "expectedInputs": {
-                "inputPrompt": {
-                    "richInitialPrompt": {
-                        "items": [self._generate_response_item(text)],
+            'expectUserResponse': True,
+            'isInSandbox': self.sandbox,
+            'expectedInputs': {
+                'inputPrompt': {
+                    'richInitialPrompt': {
+                        'items': [self._generate_response_item(text)],
                     },
                 },
-                "possibleIntents": [
+                'possibleIntents': [
                     {
-                        'intent': "actions.intent.TEXT",
+                        'intent': 'actions.intent.TEXT',
                     }
                 ],
             }
@@ -27,13 +27,13 @@ class GoogleActions(object):
 
     def tell(self, text):
         """Ends the conversation"""
-        self.logger.debug("Telling {}".format(text))
+        self.logger.debug('Telling {}'.format(text))
         return {
-            "expectUserResponse": False,
-            "isInSandbox": self.sandbox,
-            "finalResponse": {
-                "richResponse": {
-                    "items": [self._generate_response_item(text)],
+            'expectUserResponse': False,
+            'isInSandbox': self.sandbox,
+            'finalResponse': {
+                'richResponse': {
+                    'items': [self._generate_response_item(text)],
                 }
             },
         }
@@ -41,7 +41,7 @@ class GoogleActions(object):
     @staticmethod
     def _generate_response_item(text):
         return {
-            "simpleResponse": {
-                "textToSpeech": text,
+            'simpleResponse': {
+                'textToSpeech': text,
             }
         }
