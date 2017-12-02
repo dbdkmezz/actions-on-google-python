@@ -1,0 +1,2 @@
+class NoJsonException(BaseException):
+    pass

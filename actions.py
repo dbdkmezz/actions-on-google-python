@@ -3,54 +3,51 @@ import logging
 from django.http import JsonResponse
 
 
-logger = logging.getLogger('django')
+class GoogleActions(object):
+    def __init__(self, logger=logging.getLogger(), sandbox=True):
+        self.logger = logger
+        self.sandbox = sandbox
 
+    def ask(self, text):
+        self.logger.debug("Asking {}".format(text))
+        return JsonResponse(
+            {
+                "expectUserResponse": True,
+                "isInSandbox": self.sandbox,
+                "expectedInputs": {
+                    "inputPrompt": {
+                        "richInitialPrompt": {
+                            "items": [self._generate_response_item(text)],
+                        },
+                    },
+                    "possibleIntents": [
+                        {
+                            'intent': "actions.intent.TEXT",
+                        }
+                    ],
+                }
+            }
+        )
 
-def ask(text):
-    logger.debug("Asking {}".format(text))
-    return JsonResponse(
-        {
-            "expectUserResponse": True,
-            "isInSandbox": True,
-            "expectedInputs": {
-                "inputPrompt": {
-                    "richInitialPrompt": {
-                        "items": [
-                            {
-                                "simpleResponse": {
-                                    "textToSpeech": text,
-                                }
-                            }
-                        ]
+    def tell(self, text):
+        """Ends the conversation"""
+        self.logger.debug("Telling {}".format(text))
+        return JsonResponse(
+            {
+                "expectUserResponse": False,
+                "isInSandbox": self.sandbox,
+                "finalResponse": {
+                    "richResponse": {
+                        "items": [self._generate_response_item(text)],
                     }
                 },
-                "possibleIntents": [
-                    {
-                        'intent': "actions.intent.TEXT",
-                    }
-                ],
+            }
+        )
+
+    @staticmethod
+    def _generate_response_item(text):
+        return {
+            "simpleResponse": {
+                "textToSpeech": text,
             }
         }
-    )
-
-
-def tell(text):
-    """Ends the conversation"""
-    logger.debug("Telling {}".format(text))
-    return JsonResponse(
-        {
-            "expectUserResponse": False,
-            "isInSandbox": True,
-            "finalResponse": {
-                "richResponse": {
-                    "items": [
-                        {
-                            "simpleResponse": {
-                                "textToSpeech": text,
-                            }
-                        }
-                    ]
-                }
-            },
-        }
-    )
