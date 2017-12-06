@@ -12,8 +12,9 @@ class GoogleActions(object):
         """Continues the conversation.
 
         text: the message to send back to the user
-        conversation_token: a token which will be recycled by Google back to us in the next request.
-           Can be used by an app to track the conversation or to store conversation related data.
+        conversation_token: a token which will be recycled by Google back to us in the next
+           request. Can be used by an app to track the conversation or to store conversation
+           related data.
         """
 
         self.logger.debug('Asking {}'.format(text))
@@ -39,8 +40,9 @@ class GoogleActions(object):
         """Ends the conversation
 
         text: the message to send back to the user
-        conversation_token: a token which will be recycled by Google back to us in the next request.
-           Can be used by an app to track the conversation or to store conversation related data.
+        conversation_token: a token which will be recycled by Google back to us in the next
+           request. Can be used by an app to track the conversation or to store conversation
+           related data.
         """
 
         self.logger.debug('Telling {}'.format(text))

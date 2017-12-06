@@ -35,7 +35,7 @@ class GoogleRequest(object):
         self.logger.info('USER ID: %s', self.user_id)
 
         input = j['inputs'][0]
-        if 'arguments' not in input:
+        if 'arguments' in input:
+            self.text = input['arguments'][0]['textValue']
+        else:
             self.logger.info('No arguments in request')
-            return None
-        self.text = input['arguments'][0]['textValue']
