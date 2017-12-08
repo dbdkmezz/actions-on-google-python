@@ -1,7 +1,7 @@
 import json
 
 
-class Util(object):
+class Utils(object):
     @staticmethod
     def get_text_from_google_response(response):
         """Returns the text from within a response genearated with ask or tell.
