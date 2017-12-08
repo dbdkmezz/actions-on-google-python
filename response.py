@@ -3,9 +3,11 @@
 import logging
 
 
-class GoogleActions(object):
-    def __init__(self, logger=logging.getLogger(), sandbox=True):
-        self.logger = logger
+logger = logging.getLogger(__name__)
+
+
+class AppResponse(object):
+    def __init__(self, sandbox=True):
         self.sandbox = sandbox
 
     def ask(self, text, conversation_token=None):
@@ -17,7 +19,7 @@ class GoogleActions(object):
            related data.
         """
 
-        self.logger.debug('Asking {}'.format(text))
+        logger.debug('Asking {}'.format(text))
         response = self._base_response(self.sandbox, conversation_token)
         response.update({
             'expectUserResponse': True,
@@ -45,7 +47,7 @@ class GoogleActions(object):
            related data.
         """
 
-        self.logger.debug('Telling {}'.format(text))
+        logger.debug('Telling {}'.format(text))
         response = self._base_response(self.sandbox, conversation_token)
         response.update({
             'expectUserResponse': False,
