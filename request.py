@@ -28,7 +28,7 @@ class AppRequest(object):
             logger.info('Request body: %s', body)
             logger.warn('Unable to decode json')
             raise NoJsonException
-        logger.info('Request body: %s', pprint.pformat(j))
+        logger.debug('Request body: %s', pprint.pformat(j))
 
         self.conversation_id = j['conversation']['conversationId']
         self.conversation_token = j['conversation'].get('conversationToken')

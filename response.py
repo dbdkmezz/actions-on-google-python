@@ -19,7 +19,7 @@ class AppResponse(object):
            related data.
         """
 
-        logger.debug('Asking {}'.format(text))
+        logger.debug('Asking: {}'.format(text))
         response = self._base_response(self.sandbox, conversation_token)
         response.update({
             'expectUserResponse': True,
@@ -47,7 +47,7 @@ class AppResponse(object):
            related data.
         """
 
-        logger.debug('Telling {}'.format(text))
+        logger.debug('Telling: {}'.format(text))
         response = self._base_response(self.sandbox, conversation_token)
         response.update({
             'expectUserResponse': False,
