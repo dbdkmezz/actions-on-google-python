@@ -2,8 +2,9 @@ import json
 
 
 class MockRequest(object):
-    def __init__(self, body=None, text=None, user_id=None, conversation_id=None):
-        if body and (text or user_id or conversation_id):
+    def __init__(self, body=None, text=None, user_id=None, conversation_token=None,
+                 conversation_id=None):
+        if body and (text or user_id or conversation_token or conversation_id):
             raise ValueError('If body is set you may not set any other paramaters.')
         self._body = body
 
@@ -14,10 +15,15 @@ class MockRequest(object):
                 user_id = 'USER_ID'
             if conversation_id is None:
                 conversation_id = 'CONVERSATION_ID'
+            if conversation_token is None:
+                conversation_token = 'CONVERSATION_TOKEN'
 
             self._body = json.dumps({
                 'user': {'userId': user_id},
-                'conversation': {'conversationId': conversation_id},
+                'conversation': {
+                    'conversationId': conversation_id,
+                    'conversationToken': conversation_token,
+                },
                 'inputs': [{'arguments': [{'textValue': text}]}],
             })
 
