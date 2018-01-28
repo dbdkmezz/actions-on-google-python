@@ -25,8 +25,7 @@ class AppRequest(object):
         try:
             j = json.loads(body)
         except json.JSONDecodeError:
-            logger.info('Request body: %s', body)
-            logger.warn('Unable to decode json')
+            logger.warning('Unable to decode json, request body: "%s"', body)
             raise NoJsonException
         logger.debug('Request body: %s', pprint.pformat(j))
 
@@ -34,7 +33,7 @@ class AppRequest(object):
         self.conversation_token = j['conversation'].get('conversationToken')
 
         self.user_id = j['user']['userId']
-        logger.info('USER ID: %s', self.user_id)
+        logger.debug('USER ID: %s', self.user_id)
 
         input = j['inputs'][0]
         if 'arguments' in input:
