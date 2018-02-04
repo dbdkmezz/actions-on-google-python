@@ -15,8 +15,6 @@ class MockRequest(object):
                 user_id = 'USER_ID'
             if conversation_id is None:
                 conversation_id = 'CONVERSATION_ID'
-            if conversation_token is None:
-                conversation_token = 'CONVERSATION_TOKEN'
 
             self._body = json.dumps({
                 'user': {'userId': user_id},
