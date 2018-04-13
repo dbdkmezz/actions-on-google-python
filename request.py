@@ -37,6 +37,16 @@ class AppRequest(object):
 
         input = j['inputs'][0]
         if 'arguments' in input:
-            self.text = input['arguments'][0]['textValue']
+            self.text = self._get_text(input)
         else:
             logger.info('No arguments in request')
+
+    @staticmethod
+    def _get_text(input):
+        try:
+            return input['arguments'][0]['textValue']
+        except KeyError:
+            logger.warning(
+                'No textValue in first argument, attempting to fall back on rawText. Input: %s',
+                input)
+            return input['arguments'][0]['rawText']

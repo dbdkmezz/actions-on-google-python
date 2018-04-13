@@ -22,3 +22,8 @@ class TestRequest(unittest.TestCase):
         body = """{"user":{"userId":"USER_ID","locale":"en-US","lastSeen":"2017-12-02T18:55:46Z"},"conversation":{"conversationId":"1512240961019","type":"NEW"},"inputs":[{"intent":"actions.intent.MAIN","rawInputs":[{"inputType":"KEYBOARD","query":"Talk to Digger Sam"}]}],"surface":{"capabilities":[{"name":"actions.capability.AUDIO_OUTPUT"},{"name":"actions.capability.SCREEN_OUTPUT"}]},"isInSandbox":true,"availableSurfaces":[{"capabilities":[{"name":"actions.capability.AUDIO_OUTPUT"},{"name":"actions.capability.SCREEN_OUTPUT"}]}]}"""  # noqa
         result = AppRequest(MockRequest(body=body))
         self.assertEqual(result.text, None)
+
+    def test_if_no_text_value(self):
+        body = """{"user":{"userId":"TEST_USER_ID","locale":"en-US","lastSeen":"2017-12-03T21:20:57Z"},"conversation":{"conversationId":"1512372865111","conversationToken":"TOKEN","type":"NEW"},"inputs":[{"intent":"actions.intent.TEXT","rawInputs":[{"inputType":"KEYBOARD","query":"hello"}],"arguments":[{"name":"text","rawText":"hello"}]}],"surface":{"capabilities":[{"name":"actions.capability.AUDIO_OUTPUT"},{"name":"actions.capability.SCREEN_OUTPUT"}]},"isInSandbox":true,"availableSurfaces":[{"capabilities":[{"name":"actions.capability.AUDIO_OUTPUT"},{"name":"actions.capability.SCREEN_OUTPUT"}]}]}"""  # noqa
+        request = AppRequest(MockRequest(body=body))
+        self.assertEqual(request.text, 'hello')
