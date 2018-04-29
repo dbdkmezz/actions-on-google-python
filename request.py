@@ -17,6 +17,7 @@ class AppRequest(object):
         self.user_id = None
         self.conversation_id = None
         self.conversation_token = None
+        self.is_health_check = False
 
         self._parse_request(request)
 
@@ -37,16 +38,39 @@ class AppRequest(object):
 
         input = j['inputs'][0]
         if 'arguments' in input:
-            self.text = self._get_text(input)
+            arguments = self._arguments_with_names(input)
+            self.text = self._get_text(arguments)
+            self.is_health_check = self._is_health_check(arguments)
         else:
             logger.info('No arguments in request')
 
     @staticmethod
-    def _get_text(input):
+    def _arguments_with_names(input):
+        return {a['name']: a for a in input['arguments']}
+
+    @staticmethod
+    def _get_text(arguments):
+        text_argument_names = ['text', 'trigger_query']
         try:
-            return input['arguments'][0]['textValue']
+            argument = next(
+                v for k, v in arguments.items()
+                if (k in text_argument_names))
+        except StopIteration:
+            return None
+
+        if argument.get('rawText') != argument.get('textValue'):
+            # Not sure what the difference between these two is, they always seem to be the same
+            logger.error("rawText different from textValue, don't know why. Arguments: %s", arguments)
+
+        try:
+            return argument['rawText']
         except KeyError:
-            logger.warning(
-                'No textValue in first argument, attempting to fall back on rawText. Input: %s',
-                input)
-            return input['arguments'][0]['rawText']
+            return argument['textValue']
+
+    @staticmethod
+    def _is_health_check(arguments):
+        try:
+            health_check_argument = arguments['is_health_check']
+        except KeyError:
+            return False
+        return health_check_argument['boolValue']

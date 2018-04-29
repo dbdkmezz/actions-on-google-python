@@ -22,7 +22,9 @@ class MockRequest(object):
                     'conversationId': conversation_id,
                     'conversationToken': conversation_token,
                 },
-                'inputs': [{'arguments': [{'textValue': text}]}],
+                'inputs': [{'arguments': [
+                    {'name': 'text', 'textValue': text, 'rawText': text}
+                ]}],
             })
 
     @property
