@@ -33,7 +33,7 @@ class AppRequest(object):
         self.conversation_id = j['conversation']['conversationId']
         self.conversation_token = j['conversation'].get('conversationToken')
 
-        self.user_id = j['user']['userId']
+        self.user_id = j['user'].get('userId', 'unknown')
         logger.debug('USER ID: %s', self.user_id)
 
         input = j['inputs'][0]
